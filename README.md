@@ -195,7 +195,8 @@ https://github.com/user-attachments/assets/6aa5aae8-399c-4eb1-b339-27f0aef6fc5e
 
 #BMI CALCULATOR/ CALORIE TRACKER
 
-![Uploading image.png…]()
+![combined (2)](https://github.com/user-attachments/assets/799e04c0-cea9-4778-b122-ee88417335d4)
+
 
 
 
