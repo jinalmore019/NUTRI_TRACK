@@ -1,0 +1,728 @@
+<footer class="dashboard-footer">
+    <p>&copy; 2025 Nutri Track. All rights reserved.</p>
+  </footer>
+    <script>document.getElementById('bmi-form').addEventListener('submit', function (event) {
+        event.preventDefault(); // Prevent form submission
+
+        // Get user inputs
+        const age = parseInt(document.getElementById('age').value);
+        const height = parseFloat(document.getElementById('height').value) / 100; // Convert to meters
+        const weight = parseFloat(document.getElementById('weight').value);
+
+        // Validate inputs
+        if (isNaN(age) || age <= 0) {
+            alert('Please enter a valid age.');
+            return;
+        }
+        if (isNaN(height) || height <= 0 || isNaN(weight) || weight <= 0) {
+            alert('Please enter valid height and weight values.');
+            return;
+        }
+
+        // Calculate BMI
+        const bmi = (weight / (height * height)).toFixed(1);
+
+        // Determine BMI Category
+        let category = '';
+        if (bmi < 18.5) category = 'Underweight';
+        else if (bmi >= 18.5 && bmi <= 24.9) category = 'Normal';
+        else if (bmi >= 25 && bmi <= 29.9) category = 'Overweight';
+        else category = 'Obese';
+
+        // Provide recommendation based on age
+        let recommendation = '';
+        if (age < 18) {
+            recommendation = 'You are under 18. Consult a pediatrician for personalized advice.';
+        } else if (age >= 18 && age <= 40) {
+            recommendation = 'Maintain a balanced diet and regular exercise for good health.';
+        } else if (age > 40 && age <= 60) {
+            recommendation = 'Focus on a heart-healthy diet and moderate exercise.';
+        } else {
+            recommendation = 'Consider consulting a doctor for tailored health advice.';
+        }
+
+        // Display the result
+        const result = `
+            Your BMI is <span>${bmi}</span> (${category}).<br>
+            Recommendation: <span>${recommendation}</span>
+        `;
+        document.getElementById('bmi-result').innerHTML = result;
+    });
+    </script>
+    <script>const themeToggleBtn = document.getElementById("themeToggle");
+
+        // Function to toggle dark mode
+        function toggleDarkMode() {
+        document.body.classList.toggle("dark-mode");
+        if (document.body.classList.contains("dark-mode")) {
+            themeToggleBtn.textContent = "Enable Light Mode";
+        } else {
+            themeToggleBtn.textContent = "Enable Dark Mode";
+        }
+        }
+        
+        // Add event listener to the toggle button
+        themeToggleBtn.addEventListener("click", toggleDarkMode);
+    </script>
+    <script>// JavaScript for Water Intake Tracker
+        document.addEventListener("DOMContentLoaded", () => {
+            const progressBar = document.getElementById("progress-bar");
+            const progressText = document.getElementById("progress-text");
+          
+            const addWater250 = document.getElementById("add-water-250");
+            const addWater500 = document.getElementById("add-water-500");
+            const resetWater = document.getElementById("reset-water");
+          
+            let currentIntake = 0; // Current water intake in ml
+            const dailyGoal = 2000; // Daily water intake goal in ml
+          
+            // Function to update progress
+            const updateProgress = () => {
+              const percentage = (currentIntake / dailyGoal) * 100;
+              progressBar.style.width = `${Math.min(percentage, 100)}%`; // Limit to 100%
+              progressText.textContent = `${currentIntake} / ${dailyGoal} ml`;
+            };
+          
+            // Add 250 ml water
+            addWater250.addEventListener("click", () => {
+              currentIntake += 250;
+              updateProgress();
+            });
+          
+            // Add 500 ml water
+            addWater500.addEventListener("click", () => {
+              currentIntake += 500;
+              updateProgress();
+            });
+          
+            // Reset water intake
+            resetWater.addEventListener("click", () => {
+              currentIntake = 0;
+              updateProgress();
+            });
+          
+            // Initialize progress
+            updateProgress();
+          });
+          </script>
+    <script>// Confirmation Dialog
+        const confirmationDialog = document.getElementById("confirmation-dialog");
+        const openConfirmationDialog = document.getElementById("open-confirmation-dialog");
+        const confirmYes = document.getElementById("confirm-yes");
+        const confirmNo = document.getElementById("confirm-no");
+        
+        openConfirmationDialog.addEventListener("click", () => {
+            confirmationDialog.style.display = "flex";
+        });
+        
+        confirmYes.addEventListener("click", () => {
+            alert("Action Confirmed!");
+            confirmationDialog.style.display = "none";
+        });
+        
+        confirmNo.addEventListener("click", () => {
+            confirmationDialog.style.display = "none";
+        });
+        
+        // Input Dialog
+        const inputDialog = document.getElementById("input-dialog");
+        const openInputDialog = document.getElementById("open-input-dialog");
+        const submitInput = document.getElementById("submit-input");
+        const closeInputDialog = document.getElementById("close-input-dialog");
+        
+        openInputDialog.addEventListener("click", () => {
+            inputDialog.style.display = "flex";
+        });
+        
+        submitInput.addEventListener("click", () => {
+            const inputValue = document.getElementById("input-field").value;
+            if (inputValue) {
+                alert(`You entered: ${inputValue}`);
+            } else {
+                alert("Please enter a value.");
+            }
+            inputDialog.style.display = "none";
+        });
+        
+        closeInputDialog.addEventListener("click", () => {
+            inputDialog.style.display = "none";
+        });
+        
+        // Alert Dialog
+        const alertDialog = document.getElementById("alert-dialog");
+        const openAlertDialog = document.getElementById("open-alert-dialog");
+        const closeAlertDialog = document.getElementById("close-alert-dialog");
+        
+        openAlertDialog.addEventListener("click", () => {
+            alertDialog.style.display = "flex";
+        });
+        
+        closeAlertDialog.addEventListener("click", () => {
+            alertDialog.style.display = "none";
+        });
+        </script>
+    <script>document.getElementById('diet-plan-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+    
+        const calorieGoal = document.getElementById('calorie-goal').value;
+        const mealPreference = document.getElementById('meal-preference').value;
+    
+        // Assume we get the userId from some global variable or session
+        const userId = req.user.id; // Replace with actual user ID from your session/cookie or other mechanism
+        // Basic validation
+        if (!calorieGoal || !mealPreference) {
+            alert('Please fill in all the fields.');
+            return;
+        }
+    
+        try {
+            // Sending the data to the server
+            const response = await fetch('/diet-plan/generate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ userId, calorieGoal, mealPreference }),
+            });
+    
+            const result = await response.json();
+    
+            if (response.ok) {
+                // Display the generated diet plan
+                const dietPlanResult = document.getElementById('diet-plan-result');
+                dietPlanResult.innerHTML = `<h3>Your Diet Plan:</h3><ul>
+                    ${result.plan.map(meal => `<li>${meal}</li>`).join('')}
+                </ul>`;
+            } else {
+                console.error('Error response:', result);
+                alert(result.message || 'An error occurred while generating the diet plan.');
+            }
+        } catch (error) {
+            console.error('Error generating diet plan:', error);
+            alert('An error occurred while generating the diet plan. Please try again.');
+        }
+    });
+    
+    </script>
+    <!-- <script> //fitness challengers 
+        async function fetchChallenges() {
+          try {
+            const response = await fetch('/api/fitness-challenges');
+            const challenges = await response.json();
+            const challengesList = document.getElementById('challenges');
+            challengesList.innerHTML = ''; // Clear existing list
+      
+            challenges.forEach(challenge => {
+              const li = document.createElement('li');
+              li.textContent = `${challenge.name} (${challenge.startDate} - ${challenge.endDate}): ${challenge.goal}`;
+              challengesList.appendChild(li);
+            });
+          } catch (error) {
+            console.error('Error fetching challenges:', error);
+          }
+        }
+      
+        document.getElementById('join-challenge-form').addEventListener('submit', async (e) => {
+          e.preventDefault();
+      
+          const challengeId = document.getElementById('challenge-id').value;
+      
+          try {
+            const response = await fetch('/api/user-challenges', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({ challengeId })
+            });
+      
+            if (response.ok) {
+              alert('Successfully joined the challenge!');
+              document.getElementById('join-challenge-form').reset(); // Clear the form
+            } else {
+              alert('Failed to join the challenge');
+            }
+          } catch (error) {
+            console.error('Error joining challenge:', error);
+          }
+        });
+      
+        // Fetch challenges on page load
+        fetchChallenges();
+      </script>
+      <script> // add chanllenges
+        document.getElementById('add-challenge-form').addEventListener('submit', async (e) => {
+          e.preventDefault();
+      
+          const name = document.getElementById('challenge-name').value;
+          const description = document.getElementById('challenge-description').value;
+          const startDate = document.getElementById('start-date').value;
+          const endDate = document.getElementById('end-date').value;
+          const goal = document.getElementById('challenge-goal').value;
+      
+          try {
+            const response = await fetch('/api/fitness-challenges', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({ name, description, startDate, endDate, goal })
+            });
+      
+            if (response.ok) {
+              alert('Challenge added successfully!');
+              document.getElementById('add-challenge-form').reset(); // Clear the form
+            } else {
+              alert('Failed to add challenge');
+            }
+          } catch (error) {
+            console.error('Error adding challenge:', error);
+          }
+        });
+      </script> -->
+      
+
+    <script>// Selecting the form and feedback list
+        const feedbackForm = document.getElementById("feedbackForm");
+        const feedbackList = document.getElementById("feedbackList");
+        
+        // Handle form submission
+        feedbackForm.addEventListener("submit", function (e) {
+            e.preventDefault();
+        
+            // Retrieve form values
+            const mealName = document.getElementById("mealName").value;
+            const rating = parseInt(document.getElementById("rating").value);
+            const feedback = document.getElementById("feedback").value;
+        
+            // Validate the rating input
+            if (rating < 1 || rating > 5) {
+                alert("Please enter a rating between 1 and 5.");
+                return;
+            }
+        
+            // Create a feedback card
+            const feedbackCard = document.createElement("div");
+            feedbackCard.className = "feedback-card";
+            feedbackCard.innerHTML = `
+                <h3>${mealName}</h3>
+                <p class="rating">Rating: ${rating} / 5</p>
+                <p>${feedback}</p>
+            `;
+        
+            // Append the feedback card to the list
+            feedbackList.appendChild(feedbackCard);
+        
+            // Reset the form
+            feedbackForm.reset();
+        });
+        </script>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+              // Fetch and display reminders
+              async function fetchReminders() {
+                try {
+                  const response = await fetch('/api/meal-reminders');
+                  const reminders = await response.json();
+                  const reminderList = document.getElementById('reminders');
+                  reminderList.innerHTML = ''; // Clear existing reminders
+          
+                  if (reminders.length === 0) {
+                    reminderList.innerHTML = '<li>No reminders set yet.</li>';
+                    return;
+                  }
+          
+                  reminders.forEach(reminder => {
+                    const li = document.createElement('li');
+                    li.textContent = `${reminder.mealName} at ${reminder.reminderTime} on ${new Date(reminder.reminderDate).toLocaleDateString()}`;
+                    reminderList.appendChild(li);
+                  });
+                } catch (error) {
+                  console.error('Error fetching reminders:', error);
+                }
+              }
+          
+              // Handle form submission
+              document.getElementById('reminder-form').addEventListener('submit', async (e) => {
+                e.preventDefault();
+          
+                const mealName = document.getElementById('meal-name').value;
+                const reminderTime = document.getElementById('meal-time').value;
+                const reminderDate = document.getElementById('meal-date').value;
+          
+                try {
+                  const response = await fetch('/api/meal-reminders', {
+                    method: 'POST',
+                    headers: {
+                      'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ mealName, reminderTime, reminderDate })
+                  });
+          
+                  if (response.ok) {
+                    alert('Reminder created successfully!');
+                    fetchReminders(); // Refresh the reminders list
+                    document.getElementById('reminder-form').reset(); // Clear the form
+                  } else {
+                    alert('Failed to create reminder');
+                  }
+                } catch (error) {
+                  console.error('Error creating reminder:', error);
+                }
+              });
+          
+              // Fetch reminders on page load
+              fetchReminders();
+            });
+          </script>
+          
+
+    <script>// Meal data categorized into Vegan, Vegetarian, and Non-Vegetarian
+        const meals = {
+            vegan: [
+                {
+                    id: 1,
+                    name: "Quinoa Bowl with Avocado",
+                    ingredients: "Quinoa, Avocado, Black Beans, Corn, Lime Juice",
+                    nutrition: "Calories: 300, Protein: 10g, Carbs: 30g, Fat: 12g"
+                },
+                {
+                    id: 2,
+                    name: "Tofu Stir-Fry",
+                    ingredients: "Tofu, Broccoli, Bell Peppers, Soy Sauce, Garlic",
+                    nutrition: "Calories: 250, Protein: 15g, Carbs: 20g, Fat: 8g"
+                },
+                {
+                    id: 3,
+                    name: "Vegan Buddha Bowl",
+                    ingredients: "Quinoa, Sweet Potatoes, Kale, Chickpeas, Tahini Sauce",
+                    nutrition: "Calories: 350, Protein: 12g, Carbs: 40g, Fat: 10g"
+                }
+            ],
+            vegetarian: [
+                {
+                    id: 4,
+                    name: "Vegetable Stir-Fry",
+                    ingredients: "Broccoli, Bell Peppers, Carrots, Soy Sauce, Garlic",
+                    nutrition: "Calories: 180, Protein: 5g, Carbs: 15g, Fat: 5g"
+                },
+                {
+                    id: 5,
+                    name: "Greek Yogurt Parfait",
+                    ingredients: "Greek Yogurt, Granola, Berries, Honey",
+                    nutrition: "Calories: 200, Protein: 15g, Carbs: 20g, Fat: 5g"
+                },
+                {
+                    id: 6,
+                    name: "Vegetarian Lasagna",
+                    ingredients: "Pasta, Tomato Sauce, Mozzarella, Spinach, Zucchini",
+                    nutrition: "Calories: 400, Protein: 20g, Carbs: 45g, Fat: 12g"
+                }
+            ],
+            nonveg: [
+                {
+                    id: 7,
+                    name: "Grilled Chicken Salad",
+                    ingredients: "Chicken, Lettuce, Cucumber, Olive Oil, Lemon",
+                    nutrition: "Calories: 250, Protein: 25g, Carbs: 10g, Fat: 8g"
+                },
+                {
+                    id: 8,
+                    name: "Grilled Salmon with Veggies",
+                    ingredients: "Salmon, Asparagus, Zucchini, Olive Oil",
+                    nutrition: "Calories: 400, Protein: 35g, Carbs: 5g, Fat: 25g"
+                },
+                {
+                    id: 9,
+                    name: "Beef Steak with Veggies",
+                    ingredients: "Beef, Broccoli, Green Beans, Garlic Butter",
+                    nutrition: "Calories: 500, Protein: 45g, Carbs: 10g, Fat: 30g"
+                }
+            ]
+        };
+        
+        // Populate meal dropdown based on category selection
+        document.getElementById("categorySelect").addEventListener("change", function () {
+            const category = this.value;
+            const mealSelect = document.getElementById("mealSelect");
+            const mealDropdownContainer = document.getElementById("mealDropdownContainer");
+        
+            // Clear existing options in meal dropdown
+            mealSelect.innerHTML = '<option value="" disabled selected>Select a meal</option>';
+        
+            // Populate meals based on category
+            meals[category].forEach(meal => {
+                const option = document.createElement("option");
+                option.value = meal.id;
+                option.textContent = meal.name;
+                mealSelect.appendChild(option);
+            });
+        
+            // Show the meal dropdown
+            mealDropdownContainer.style.display = "block";
+            document.getElementById("mealInfo").style.display = "none"; // Hide meal info
+        });
+        
+        // Display meal information on meal selection
+        document.getElementById("mealSelect").addEventListener("change", function () {
+            const mealId = parseInt(this.value);
+            const category = document.getElementById("categorySelect").value;
+            const meal = meals[category].find(meal => meal.id === mealId);
+        
+            if (meal) {
+                document.getElementById("mealName").textContent = meal.name;
+                document.getElementById("mealIngredients").textContent = meal.ingredients;
+                document.getElementById("mealNutrition").textContent = meal.nutrition;
+        
+                // Show meal information
+                document.getElementById("mealInfo").style.display = "block";
+            }
+        });
+        </script>
+
+    <script>// Selecting the form and the reminder list
+        const reminderForm = document.getElementById("reminderForm");
+        const reminderList = document.getElementById("reminderList");
+        
+        // Handle form submission
+        reminderForm.addEventListener("submit", function (e) {
+            e.preventDefault();
+        
+            // Retrieve input values
+            const activity = document.getElementById("activity").value;
+            const time = document.getElementById("time").value;
+            const email = document.getElementById("email").value;
+        
+            // Create a reminder card
+            const reminderCard = document.createElement("div");
+            reminderCard.className = "reminder-card";
+            reminderCard.innerHTML = `
+                <h3>${activity}</h3>
+                <p>Reminder Time: ${time}</p>
+                <p>Email: ${email}</p>
+            `;
+        
+            // Append the reminder card to the list
+            reminderList.appendChild(reminderCard);
+        
+            // Call the backend to send the email
+            sendEmail(activity, time, email);
+        
+            // Reset the form fields
+            reminderForm.reset();
+        });
+        
+        // Function to send email via PHP backend
+        function sendEmail(activity, time, email) {
+            fetch("send-email.php", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ activity, time, email }),
+            })
+                .then((response) => response.json())
+                .then((data) => {
+                    if (data.success) {
+                        alert("Reminder email sent successfully!");
+                    } else {
+                        alert("Failed to send email. Please try again.");
+                    }
+                })
+                .catch((error) => {
+                    console.error("Error:", error);
+                });
+        }
+    </script>
+
+    <script>const notificationsContainer = document.getElementById('notifications-container');
+        const triggerNotificationBtn = document.getElementById('trigger-notification');
+        
+        // Trigger a new notification
+        triggerNotificationBtn.addEventListener('click', function () {
+            createNotification('This is a triggered notification!');
+        });
+        
+        // Function to create and display a notification
+        function createNotification(message) {
+            const notification = document.createElement('div');
+            notification.classList.add('notification');
+            notification.innerHTML = `
+                <span>${message}</span>
+                <button onclick="removeNotification(this)">Dismiss</button>
+            `;
+        
+            notificationsContainer.appendChild(notification);
+        
+            // Auto-remove notification after 5 seconds
+            setTimeout(() => {
+                if (notification.parentElement) {
+                    notification.remove();
+                }
+            }, 5000);
+        }
+        
+        // Function to remove a notification manually
+        function removeNotification(button) {
+            const notification = button.parentElement;
+            notification.remove();
+        }
+        
+        // Example: Real-time notification every 10 seconds
+        setInterval(() => {
+            const time = new Date().toLocaleTimeString();
+            createNotification(`Reminder: Stay on track! Current time is ${time}`);
+        }, 10000);
+    </script>
+
+
+    <script>// Database of Features and Their Corresponding Pages
+        const features = [
+            { title: "Login", page: "login.html" },
+            { title: "Sign Up", page: "signup.html" },
+            { title: "BMI Calculator", page: "bmi-calculator.html" },
+            { title: "Calorie Tracker", page: "calorie-tracker.html" },
+            { title: "Meal Selection System", page: "meal-selection.html" },
+            { title: "Diet Plan Generator", page: "diet-plan.html" },
+            { title: "Meal Reminders", page: "meal-reminders.html" },
+            { title: "Progress Tracker", page: "progress-tracker.html" },
+            { title: "Notifications & Alerts", page: "notifications.html" },
+            { title: "Dialog Boxes", page: "dialog-boxes.html" },
+            { title: "Step Tracker", page: "step-tracker.html" },
+            { title: "Sleep Tracker", page: "sleep-tracker.html" },
+            { title: "Water Intake Tracker", page: "water-intake.html" },
+            { title: "Fitness Challenge System", page: "fitness-challenge.html" },
+            { title: "Meal Feedback & Rating System", page: "meal-feedback.html" },
+            { title: "Notifications & Reminders with Email", page: "notification-email.html" },
+            { title: "Dark Mode/Theme Toggle", page: "dark_mode.html" },
+          ];
+          
+          // Get DOM Elements
+          const searchForm = document.getElementById("search-form");
+          const searchInput = document.getElementById("search-input");
+          const searchResults = document.getElementById("search-results");
+          
+          // Handle Search Form Submission
+          searchForm.addEventListener("submit", function (event) {
+            event.preventDefault(); // Prevent page reload
+            const query = searchInput.value.trim().toLowerCase(); // Get input value
+            searchResults.innerHTML = ""; // Clear previous results
+          
+            // Filter Features Based on Query
+            const filteredFeatures = features.filter((feature) =>
+              feature.title.toLowerCase().includes(query)
+            );
+          
+            // Show Results
+            if (filteredFeatures.length === 0) {
+              searchResults.innerHTML = "<p class='no-results'>No features found. Try a different search.</p>";
+            } else {
+              filteredFeatures.forEach((feature) => {
+                const featureItem = document.createElement("div");
+                featureItem.className = "result-item";
+                featureItem.innerHTML = `
+                  <a href="${feature.page}" target="_self">${feature.title}</a>
+                `;
+                searchResults.appendChild(featureItem);
+              });
+            }
+          });
+          </script>
+
+    <script>// Sleep Tracker Logic
+        document.addEventListener("DOMContentLoaded", () => {
+            const sleepProgressBar = document.getElementById("sleep-progress-bar");
+            const sleepProgressText = document.getElementById("sleep-progress-text");
+            const sleepInput = document.getElementById("sleep-hours");
+            const addSleepButton = document.getElementById("add-sleep-hours");
+            const resetSleepButton = document.getElementById("reset-sleep");
+          
+            let totalSleepHours = 0; // Current sleep hours logged
+            const dailySleepGoal = 8; // Recommended daily sleep goal in hours
+          
+            // Function to update progress
+            const updateSleepProgress = () => {
+              const progress = Math.min((totalSleepHours / dailySleepGoal) * 100, 100); // Cap progress at 100%
+              sleepProgressBar.style.width = `${progress}%`;
+              sleepProgressText.textContent = `${totalSleepHours} / ${dailySleepGoal} hours`;
+          
+              // If sleep goal is reached
+              if (totalSleepHours >= dailySleepGoal) {
+                sleepProgressText.textContent = `Great job! You reached your goal of ${dailySleepGoal} hours!`;
+              }
+            };
+          
+            // Add sleep hours
+            addSleepButton.addEventListener("click", () => {
+              const sleepHours = parseFloat(sleepInput.value);
+          
+              if (!isNaN(sleepHours) && sleepHours >= 0 && sleepHours <= 12) {
+                totalSleepHours += sleepHours;
+                updateSleepProgress();
+              } else {
+                alert("Please enter a valid number between 0 and 12.");
+              }
+              sleepInput.value = ""; // Clear input field
+            });
+          
+            // Reset sleep tracker
+            resetSleepButton.addEventListener("click", () => {
+              totalSleepHours = 0;
+              updateSleepProgress();
+            });
+          
+            // Initialize tracker
+            updateSleepProgress();
+          });
+          </script>  
+          
+    <script>// JavaScript for Step Tracker
+        document.addEventListener("DOMContentLoaded", () => {
+            const stepProgressBar = document.getElementById("step-progress-bar");
+            const stepProgressText = document.getElementById("step-progress-text");
+          
+            const addSteps1000 = document.getElementById("add-steps-1000");
+            const addSteps500 = document.getElementById("add-steps-500");
+            const resetSteps = document.getElementById("reset-steps");
+          
+            let currentSteps = 0; // Current steps
+            const dailyStepGoal = 10000; // Daily step goal
+          
+            // Function to update progress
+            const updateStepProgress = () => {
+              const percentage = (currentSteps / dailyStepGoal) * 100;
+              stepProgressBar.style.width = `${Math.min(percentage, 100)}%`; // Limit to 100%
+              stepProgressText.textContent = `${currentSteps} / ${dailyStepGoal} steps`;
+            };
+          
+            // Add 1000 steps
+            addSteps1000.addEventListener("click", () => {
+              currentSteps += 1000;
+              updateStepProgress();
+            });
+          
+            // Add 500 steps
+            addSteps500.addEventListener("click", () => {
+              currentSteps += 500;
+              updateStepProgress();
+            });
+          
+            // Reset steps
+            resetSteps.addEventListener("click", () => {
+              currentSteps = 0;
+              updateStepProgress();
+            });
+          
+            // Initialize progress
+            updateStepProgress();
+          });
+          </script>
+
+    <script></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+</body>
+</html>

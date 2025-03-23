@@ -1,0 +1,301 @@
+<%- include('header') %>
+
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    color: #333;
+    margin: 0;
+    padding: 0;
+  }
+
+  .container {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .form-container {
+    text-align: center;
+  }
+
+  h2 {
+    margin-bottom: 20px;
+    color: #4CAF50;
+  }
+
+  label {
+    font-size: 1.2em;
+    display: block;
+    margin-bottom: 10px;
+  }
+
+  select {
+    padding: 10px;
+    width: 100%;
+    max-width: 300px;
+    margin: 10px auto;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1em;
+  }
+
+  button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+  }
+
+  button:hover {
+    background-color: #45a049;
+  }
+
+  #meal-list ul {
+    list-style-type: none;
+    padding: 0;
+  }
+
+  #meal-list li {
+    padding: 10px;
+    background: #f9f9f9;
+    margin: 5px 0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    transition: background 0.3s;
+  }
+
+  #meal-list li:hover {
+    background: #e8f5e9;
+    cursor: pointer;
+  }
+
+  .hidden {
+    display: none;
+  }
+</style>
+
+<div class="container">
+  <div class="form-container">
+    <h2>Meal Selector</h2>
+
+    <!-- Step 1: Select Category -->
+    <form id="category-form">
+      <label for="category">Select a Category:</label>
+      <select id="category" required>
+        <option value="">--Select--</option>
+        <option value="Veg">Veg</option>
+        <option value="Non-Veg">Non-Veg</option>
+        <option value="Vegan">Vegan</option>
+      </select>
+      <button type="submit">Find Meals</button>
+    </form>
+
+    <!-- Step 2: Display Meals -->
+    <div id="meal-list" class="hidden">
+      <h3>Select a Meal</h3>
+      <ul id="meals"></ul>
+    </div>
+
+    <!-- Step 3: Display Meal Details -->
+    <div id="meal-details" class="hidden">
+      <h3>Meal Details</h3>
+      <p><strong>Ingredients:</strong> <span id="ingredients"></span></p>
+      <p><strong>Nutrition Information:</strong></p>
+      <ul>
+        <li><strong>Calories:</strong> <span id="calories"></span></li>
+        <li><strong>Protein:</strong> <span id="protein"></span></li>
+        <li><strong>Carbs:</strong> <span id="carbs"></span></li>
+        <li><strong>Fat:</strong> <span id="fat"></span></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<script>
+  const mealData = {
+    Veg: [
+      {
+        name: "Chickpea Salad Wrap",
+        _id: "1",
+        ingredients: "50g chickpeas (protein and carbs), 1 small whole-grain tortilla (carbs), 1 tbsp tahini (fat), Lettuce, cucumber, and spices to taste.",
+        calories: "250",
+        protein: "12 g",
+        carbs: "35 g",
+        fat: "8 g",
+      },
+      {
+        name: "Tofu Stir-fry with Quinoa",
+        _id: "2",
+        ingredients: "50g firm tofu (protein and fat), 1/4 cup cooked quinoa (carbs and protein), 1 tsp sesame oil (fat), Mixed vegetables like broccoli and peppers (fiber and carbs)",
+        calories: "300",
+        protein: "20 g",
+        carbs: "40 g",
+        fat: "10 g",
+      },
+      {
+        name: "Edamame Bowl with Sweet Potato",
+        _id: "3",
+        ingredients: "1/2 cup cooked edamame (protein and carbs), 60g baked sweet potato (carbs), 1 tsp olive oil or vegan butter",
+        calories: "200",
+        protein: "15 g",
+        carbs: "30 g",
+        fat: "10 g",
+      },
+      {
+        name: "Vegan Protein Smoothie",
+        _id: "4",
+        ingredients: "1/2 scoop plant-based protein powder (protein), 1/2 banana (carbs), 1 tsp almond butter (fat), 1/4 cup unsweetened almond milk (low-calorie liquid base).",
+        calories: "400",
+        protein: "15 g",
+        carbs: "30 g",
+        fat: "20 g",
+      },
+      {
+        name: "Lentil and Avocado Toast",
+        _id: "5",
+        ingredients: "40g cooked lentils (protein and carbs), 1 slice whole-grain bread (carbs), 1/8 avocado (fat).",
+        calories: "500",
+        protein: "18 g",
+        carbs: "45 g",
+        fat: "25 g",
+      },
+    ],
+    "Non-Veg": [
+      {
+        name: "Grilled Chicken Salad",
+        _id: "6",
+        ingredients: "3 oz grilled chicken breast (protein), 1 cup mixed greens (low-calorie base), 1 tbsp olive oil (fat), 1 tbsp balsamic vinegar (flavor, minimal carbs).",
+        calories: "190",
+        protein: "70 g",
+        carbs: "5 g",
+        fat: "8 g",
+      },
+      {
+        name: "Tuna Lettuce Wraps",
+        _id: "7",
+        ingredients: "3 oz canned tuna in water (protein), 2 large romaine lettuce leaves (low-calorie wrap), 1 tbsp light mayonnaise (fat), 1 tsp lemon juice and seasonings (flavor).",
+        calories: "180",
+        protein: "200 g",
+        carbs: "1 g",
+        fat: "10 g",
+      },
+      {
+        name: "Shrimp Stir-Fry",
+        _id: "8",
+        ingredients: "3 oz shrimp (protein), 1/2 cup cooked brown rice (carbs), 1 tsp sesame oil (fat), Stir-fry veggies: broccoli, bell peppers, zucchini (fiber).",
+        calories: "550",
+        protein: "20 g",
+        carbs: "15 g",
+        fat: "7 g",
+      },
+      {
+        name: "Turkey and Avocado Roll",
+        _id: "9",
+        ingredients: "2 oz sliced turkey breast (protein), 1/4 avocado (fat), 1 small whole-grain tortilla (carbs).",
+        calories: "200",
+        protein: "15 g",
+        carbs: "15 g",
+        fat: "10 g",
+      },
+      {
+        name: "Egg White and Turkey Omelette",
+        _id: "10",
+        ingredients: "1/2 cup egg whites (protein), 1 oz cooked turkey sausage (protein and fat), 1 tbsp shredded cheese (fat), 1/4 cup diced tomatoes (carbs and flavor).",
+        calories: "200",
+        protein: "23 g",
+        carbs: "4 g",
+        fat: "8 g",
+      },
+    ],
+    Vegan: [
+      {
+        name: "Avocado Toast with Hemp Seeds",
+        _id: "11",
+        ingredients: "1 slice whole-grain bread (40g), 1/4 medium avocado (30g), 1 tsp hemp seeds (5g), Salt and pepper to taste",
+        calories: "190",
+        protein: "5 g",
+        carbs: "90 g",
+        fat: "18 g",
+      },
+      {
+        name: "Peanut Butter & Banana Oatmeal",
+        _id: "12",
+        ingredients: "1/4 cup rolled oats (20g), 1/2 small banana (50g), 1 tsp peanut butter (5g), 1/2 cup unsweetened almond milk (120ml)",
+        calories: "250",
+        protein: "6 g",
+        carbs: "31 g",
+        fat: "10 g",
+      },
+      {
+        name: "Chickpea Salad Bowl",
+        _id: "13",
+        ingredients: "1/4 cup cooked chickpeas (40g), 1/2 cup chopped cucumbers (50g), 1/2 cup cherry tomatoes (50g), 1 tsp olive oil (5g), Lemon juice and spices to taste",
+        calories: "180",
+        protein: "6 g",
+        carbs: "20 g",
+        fat: "12 g",
+      },
+      {
+        name: "Edamame Snack Bowl",
+        _id: "14",
+        ingredients: "1/2 cup steamed edamame (80g), Sprinkle of sea salt or chili flakes",
+        calories: "160",
+        protein: "14 g",
+        carbs: "13 g",
+        fat: "15 g",
+      },
+      {
+        name: "Vegan Protein Smoothie",
+        _id: "15",
+        ingredients: "1/2 scoop plant-based protein powder (15g), 1/2 cup frozen mixed berries (70g), 1/2 cup unsweetened almond milk (120ml), 1 tsp chia seeds (5g), ",
+        calories: "350",
+        protein: "12 g",
+        carbs: "18 g",
+        fat: "8 g",
+      },
+    ],
+  };
+
+  document.getElementById("category-form").addEventListener("submit", (e) => {
+    e.preventDefault();
+    const category = document.getElementById("category").value;
+
+    const meals = mealData[category] || [];
+    const mealList = document.getElementById("meals");
+    mealList.innerHTML = ""; // Clear existing meals
+
+    meals.forEach((meal) => {
+      const li = document.createElement("li");
+      li.textContent = meal.name;
+      li.setAttribute("data-id", meal._id);
+      li.addEventListener("click", () => fetchMealDetails(meal._id));
+      mealList.appendChild(li);
+    });
+
+    document.getElementById("meal-list").classList.remove("hidden");
+  });
+
+  function fetchMealDetails(mealId) {
+    const allMeals = [...mealData.Veg, ...mealData["Non-Veg"], ...mealData.Vegan];
+    const meal = allMeals.find((meal) => meal._id === mealId);
+
+    if (meal) {
+      document.getElementById("ingredients").textContent = meal.ingredients;
+      document.getElementById("calories").textContent = meal.calories;
+      document.getElementById("protein").textContent = meal.protein;
+      document.getElementById("carbs").textContent = meal.carbs;
+      document.getElementById("fat").textContent = meal.fat;
+
+      document.getElementById("meal-details").classList.remove("hidden");
+    }
+  }
+</script>
+
+<%- include('footer') %>

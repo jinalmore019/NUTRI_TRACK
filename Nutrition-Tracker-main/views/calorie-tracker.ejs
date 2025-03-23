@@ -1,0 +1,168 @@
+<%- include('header') %>
+
+<style>
+  /* CSS for Calorie Tracker */
+  .container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+  }
+
+  h2 {
+    text-align: center;
+    color: #333;
+  }
+
+  .form-container {
+    background: #f9f9f9;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+
+  input[type="number"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+
+  button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+
+  button:hover {
+    background-color: #45a049;
+  }
+
+  .result {
+    margin-top: 20px;
+    font-size: 16px;
+  }
+
+  .progress-bar-container {
+    margin-top: 10px;
+    background-color: #ddd;
+    border-radius: 4px;
+    overflow: hidden;
+    height: 20px;
+  }
+
+  .progress-bar {
+    background-color: #4CAF50;
+    height: 100%;
+    width: 0;
+    color: white;
+    text-align: center;
+    line-height: 20px;
+    font-size: 12px;
+    transition: width 0.3s ease-in-out;
+  }
+</style>
+
+<div class="container">
+  <div class="form-container">
+    <h2>Calorie Tracker</h2>
+
+    <!-- Form to Add Calories -->
+    <form id="calorie-form">
+      <label for="calories">Enter Calories Consumed:</label>
+      <input 
+        type="number" 
+        id="calories" 
+        placeholder="Enter calories (e.g., 500)" 
+        required 
+        min="0"
+      />
+      <button type="submit">Add Calories</button>
+    </form>
+
+    <!-- Calorie Summary -->
+    <div id="calorie-summary" class="result">
+      <p>
+        <strong>Total Calories Consumed Today:</strong> 
+        <span id="total-calories">0</span> kcal
+      </p>
+      <p>
+        <strong>Calorie Goal:</strong> 
+        <span id="calorie-goal">2000</span> kcal
+      </p>
+
+      <!-- Progress Bar -->
+      <div class="progress-bar-container">
+        <div id="progress-bar" class="progress-bar">0%</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // JavaScript for Calorie Tracker
+  document.addEventListener('DOMContentLoaded', () => {
+    const calorieGoal = 2000; // Set the default calorie goal
+    const progressBar = document.getElementById('progress-bar');
+    const totalCaloriesElement = document.getElementById('total-calories');
+
+    // Fetch total calories on page load
+    async function fetchDailyCalories() {
+      try {
+        const response = await fetch('/api/calorie-tracker');
+        const data = await response.json();
+
+        const totalCalories = data.totalCalories || 0;
+        totalCaloriesElement.textContent = totalCalories;
+
+        // Update progress bar
+        const progress = Math.min((totalCalories / calorieGoal) * 100, 100);
+        progressBar.style.width = `${progress}%`;
+        progressBar.textContent = `${progress.toFixed(1)}%`;
+      } catch (error) {
+        console.error('Error fetching daily calories:', error);
+      }
+    }
+
+    // Handle form submission to add calories
+    document.getElementById('calorie-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const calories = parseInt(document.getElementById('calories').value, 10);
+      if (isNaN(calories) || calories <= 0) {
+        alert('Please enter a valid number greater than 0 for calories consumed.');
+        return;
+      }
+
+      try {
+        const response = await fetch('/api/calorie-tracker', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ caloriesConsumed: parseInt(calories, 10) })
+        });
+
+        if (response.ok) {
+          alert('Calorie entry added successfully!');
+          document.getElementById('calorie-form').reset();
+          fetchDailyCalories(); // Refresh calorie summary
+        } else {
+          const error = await response.json();
+          alert(`Failed to add calorie entry: ${error.error}`);
+        }
+      } catch (error) {
+        console.error('Error adding calorie entry:', error);
+      }
+    });
+
+    // Initial fetch
+    fetchDailyCalories();
+  });
+</script>
+
+<%- include('footer') %>
