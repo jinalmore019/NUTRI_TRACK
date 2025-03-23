@@ -189,14 +189,23 @@ https://github.com/user-attachments/assets/6aa5aae8-399c-4eb1-b339-27f0aef6fc5e
 #DASHBOARD
 
 
+<img width="401" alt="deshbrad" src="https://github.com/user-attachments/assets/438222ec-417d-4cf2-9a8b-43e89c614f0d" />
+
+
 
 #BMI CALCULATOR/ CALORIE TRACKER
 
 
 #DIET PLANNER
 
+![diat plans](https://github.com/user-attachments/assets/7a9cffa6-f36b-442d-a1a9-8e4e29ba4e74)
+
+
 
 #MEALSELECTION SYSTEM
+
+
+![meal](https://github.com/user-attachments/assets/880d9ce9-5f3d-46fa-9ac8-d496c86905fe)
 
 
 
@@ -205,6 +214,9 @@ https://github.com/user-attachments/assets/6aa5aae8-399c-4eb1-b339-27f0aef6fc5e
 
 
 #PROGRESS TRACKER
+
+
+<img width="387" alt="progess tercker" src="https://github.com/user-attachments/assets/5af01ae9-da79-4010-988a-ace15a48670a" />
 
 
 
