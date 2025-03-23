@@ -178,7 +178,11 @@ https://github.com/user-attachments/assets/6aa5aae8-399c-4eb1-b339-27f0aef6fc5e
 
 
 
-#ADMIN/LOGIN/SIGN UP
+#LOGIN/SIGN UP
+
+
+![sign up_login](https://github.com/user-attachments/assets/2fef3a7f-6cd1-4e21-9ed5-aed206d5e2bb)
+
 
 
 #DASHBOARD
