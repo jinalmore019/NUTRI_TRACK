@@ -215,6 +215,9 @@ https://github.com/user-attachments/assets/6aa5aae8-399c-4eb1-b339-27f0aef6fc5e
 
 #FITNESS CHALLENG
 
+<img width="558" alt="fitness" src="https://github.com/user-attachments/assets/5847ec04-1ca3-402c-950e-c47b7fe7e482" />
+
+
 
 
 #PROGRESS TRACKER
