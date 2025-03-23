@@ -163,35 +163,31 @@ Objective:
 
 #LENDING PAGE
 
-![lending page](https://github.com/user-attachments/assets/a93d7f1e-ae13-459b-845c-bbaf15d3b6ad)
+
 
 #ADMIN/LOGIN/SIGN UP
 
-![login signup admin](https://github.com/user-attachments/assets/88cb20c4-049c-43b1-b92d-27d6432a933c)
 
 #DASHBOARD
 
-![dashbroad](https://github.com/user-attachments/assets/fff83bf7-9822-4a8c-a967-0c0e5dcfc74a)
+
 
 #BMI CALCULATOR/ CALORIE TRACKER
 
-![bmi colries](https://github.com/user-attachments/assets/b5d0a41b-dcbd-43c2-87b2-2008c9aa2756)
 
 #DIET PLANNER
 
-![diat plans](https://github.com/user-attachments/assets/f031f032-4ed7-4d0d-8347-13290bc0061b)
 
 #MEALSELECTION SYSTEM
 
-![meal](https://github.com/user-attachments/assets/47e8d63d-fbe1-450f-a7db-3d69615bab35)
+
 
 #FITNESS CHALLENG
 
-![fitness](https://github.com/user-attachments/assets/07b12335-bdf6-4c28-8929-d01289ccbd70)
+
 
 #PROGRESS TRACKER
 
-![progress](https://github.com/user-attachments/assets/12dd0fe8-048e-4778-97a2-23926c09b3b6)
 
 
 ---
