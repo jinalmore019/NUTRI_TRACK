@@ -94,7 +94,7 @@ Objective:
 ## 📜 Installation & Setup
 1. Clone the repository:
    sh
-   git clone https://github.com/jinalmore019/jinal_more
+   git clone https://jinalmore019.github.io/NUTRI_TRACK
    cd Nutrition-Tracker-main
    
 2. Install dependencies:
