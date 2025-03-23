@@ -181,7 +181,7 @@ https://github.com/user-attachments/assets/6aa5aae8-399c-4eb1-b339-27f0aef6fc5e
 #LOGIN/SIGN UP
 
 
-![combined](https://github.com/user-attachments/assets/f76cd468-b591-4954-b91e-2a13c371d914)
+![combined](https://github.com/user-attachments/assets/3182d4a4-a03e-4cbc-9869-9c69e25502b4)
 
 
 
