@@ -218,6 +218,17 @@ https://github.com/user-attachments/assets/6aa5aae8-399c-4eb1-b339-27f0aef6fc5e
 
 <img width="387" alt="progess tercker" src="https://github.com/user-attachments/assets/5af01ae9-da79-4010-988a-ace15a48670a" />
 
+#EMAIL REMINDERS
+
+
+<img width="205" alt="email reminder" src="https://github.com/user-attachments/assets/a0eed5d1-b4f9-4e01-98b8-9d9b624f61aa" />
+
+
+#ABOUT US
+
+
+<img width="725" alt="about us" src="https://github.com/user-attachments/assets/2d50cebf-4e13-4f3f-9719-675ea2345e25" />
+
 
 
 ---
