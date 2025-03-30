@@ -133,20 +133,7 @@ Objective:
 
   ---
   
-  
-
-
-
-
-## 🌐 Live Website  
-🔗 [Click Here to Open Nutri Track]( https://jinalmore019.github.io/Nutrition-Tracker/)
-
----
-
-
-
-
-
+ 
 ## 🎥 Project Demo & Screenshots
 
 
